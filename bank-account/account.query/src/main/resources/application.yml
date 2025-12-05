@@ -1,0 +1,40 @@
+server:
+  port: 5001
+
+spring:
+  jpa:
+    # postgreSQL jpa settings
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    # MySQL jpa settings
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+  datasource:
+    # postgreSQL datasource settings
+    initialization-mode: always
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/bankAccount
+    username: postgres
+    password: techbankRootPsw
+    #MySQL datasource settings
+  #    url: jdbc:mysql://localhost:3306/bankAccount?createDatabaseIfNotExist=true
+  #    username: root
+  #    password: techbankRootPsw
+  kafka:
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: bankaccConsumer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
